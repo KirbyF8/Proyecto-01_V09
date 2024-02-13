@@ -2,12 +2,26 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    private float speed = 15.0f; // Velocidad del vehículo
-    private float lateralSpeed = 5f; // Velocidad de rotación
+    private float speed = 20.0f; // Velocidad del vehículo
+    private float lateralSpeed = 15.0f; // Velocidad de rotación
 
     private float horizontalInput;
     private float verticalInput;
 
+    private int Lives = 3;
+
+    private bool isGameOver = false;
+    private Vector3 initialPosition;
+
+    private Rigidbody playerRigidbody;
+
+    private void Awake()
+    {
+        initialPosition = Vector3.zero;
+        playerRigidbody = GetComponent<Rigidbody>();
+        isGameOver = false;
+        Lives = 3;
+    }
     void Update()
     {
         // La detección de inputs debe ir en el Update
@@ -35,5 +49,23 @@ public class Movement : MonoBehaviour
         
         // Rotación afectada por el input horizontal del usuario
         transform.Rotate(Vector3.up, lateralSpeed * Time.deltaTime * horizontalInput);
+
+
+        if (transform.position.y < -3f)
+        {
+            Lives--;
+            if (Lives < 0)
+            {
+                //Game Over
+                isGameOver = true;
+            }
+            else
+            {
+                transform.position = initialPosition;
+                playerRigidbody.velocity = Vector3.zero;
+                
+            }
+
+        }
     }
 }
