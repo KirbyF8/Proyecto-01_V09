@@ -9,17 +9,17 @@ public class UIManager_sc : MonoBehaviour
 
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private GameObject winPanel;
+
     [SerializeField] private Image[] lives;
     [SerializeField] private TextMeshProUGUI deads;
-    [SerializeField] private Button restartButton;
-
     private int actualLivesLost;
+
+    [SerializeField] private Button restartButton;
 
     private GameManager_sc gameManager;
 
     void Start()
     {
-
         actualLivesLost = 0;
 
         gameManager = FindObjectOfType<GameManager_sc>();
@@ -38,27 +38,29 @@ public class UIManager_sc : MonoBehaviour
 
     }
 
+    public void HideGameOverPanel()
+    {
+        gameOverPanel.SetActive(false);
+    }
     public void ShowGameOverPanel()
     {
         gameOverPanel.SetActive(true);
     }
 
-    public void HideGameOverPanel()
+   
+    public void HideWinPanel()
     {
-        gameOverPanel.SetActive(false);
+        winPanel.SetActive(false);
     }
 
     public void ShowWinPanel(int lifes, int maxLifes)
     {
+        int lostLives = maxLifes - lifes;
 
-        deads.text = "Times Died: " + (maxLifes - lifes);
+        deads.text = $"You died {lostLives} times";
         winPanel.SetActive(true);
 
     }
 
-    public void HideWinPanel()
-    {
-        gameOverPanel.SetActive(false);
-    }
-
+  
 }
